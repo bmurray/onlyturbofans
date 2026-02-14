@@ -5,7 +5,7 @@
       "type": "remote",
       "uri": "projectpackage://pkg.pkl-lang.org/github.com/bmurray/devops-shared/deploy@0.2.0",
       "checksums": {
-        "sha256": "294c010b22264e2288d82fd6ac4a3cb93195a780b6cfbec18857ccbe08663008"
+        "sha256": "f657414c8350ef5f6cfaedb1e3c231baf2dbdc311021cd4519e124cf9dfd6b0d"
       }
     },
     "package://pkg.pkl-lang.org/pkl-pantry/k8s.networking.gateway@1": {

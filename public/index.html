@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OnlyTurboFans</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      background: linear-gradient(135deg, #00aaff, #0055cc);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-top: 0.25rem;
+    }
+    .hero {
+      max-width: 720px;
+      text-align: center;
+      padding: 3rem 1.5rem;
+    }
+    .hero .turbofan {
+      font-size: 8rem;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .hero h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #aaa;
+      line-height: 1.6;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 960px;
+      padding: 0 1.5rem 3rem;
+      width: 100%;
+    }
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+    .card .icon { font-size: 3rem; margin-bottom: 0.75rem; }
+    .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .card p { color: #999; font-size: 0.95rem; line-height: 1.5; }
+    .subscribe {
+      background: linear-gradient(135deg, #00aaff, #0055cc);
+      color: #fff;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 1rem 0 3rem;
+      transition: transform 0.2s;
+    }
+    .subscribe:hover { transform: scale(1.05); }
+    footer {
+      border-top: 1px solid #222;
+      padding: 1.5rem;
+      text-align: center;
+      color: #666;
+      font-size: 0.85rem;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>OnlyTurboFans</h1>
+    <p>Exclusive turbofan jet engine content</p>
+  </header>
+  <div class="hero">
+    <div class="turbofan">&#9992;</div>
+    <h2>Premium Turbofan Content Awaits</h2>
+    <p>
+      Subscribe for exclusive high-bypass ratio content, behind-the-nacelle footage,
+      and intimate spool-up videos you won't find anywhere else.
+      Over 100,000 lbs of thrust — unfiltered.
+    </p>
+  </div>
+  <button class="subscribe" onclick="alert('Thank you for your interest in turbofan engines!')">
+    Subscribe &mdash; Free
+  </button>
+  <div class="cards">
+    <div class="card">
+      <div class="icon">&#128293;</div>
+      <h3>Hot Section Tours</h3>
+      <p>Get up close with combustion chambers running at 2,000&deg;F. Full afterburner content available for premium members.</p>
+    </div>
+    <div class="card">
+      <div class="icon">&#9881;</div>
+      <h3>Fan Blade Reveals</h3>
+      <p>Titanium fan blades slowly unveiled, one stage at a time. 78-inch diameter content that will blow you away.</p>
+    </div>
+    <div class="card">
+      <div class="icon">&#127752;</div>
+      <h3>Bypass Ratio ASMR</h3>
+      <p>Fall asleep to the soothing sounds of a GE9X at idle. 10:1 bypass ratio — pure, uncompressed audio.</p>
+    </div>
+  </div>
+  <footer>
+    &copy; 2026 OnlyTurboFans &mdash; Not affiliated with any fan-related subscription platforms.
+    All thrust is consensual.
+  </footer>
+</body>
+</html>

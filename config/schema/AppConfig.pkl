@@ -1,0 +1,6 @@
+@go.Package { name = "github.com/bmurray/onlyturbofans/config/gen/appconfig" }
+module com.onlyturbofans.AppConfig
+
+import "package://pkg.pkl-lang.org/pkl-go/pkl.golang@0.9.0#/go.pkl"
+
+// Static site - no configuration needed

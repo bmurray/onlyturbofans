@@ -1,0 +1,6 @@
+amends "@devops-shared/Deploy.pkl"
+
+appName = "onlyturbofans"
+appNamespace = "onlyturbofans"
+image = "ghcr.io/bmurray/onlyturbofans:\(version)"
+appPort = 80

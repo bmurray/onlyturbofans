@@ -1,0 +1,109 @@
+name: Pkl Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pkl
+        uses: pkl-community/setup-pkl@v0
+        with:
+          pkl-version: '0.27.1'
+
+      - name: Extract deploy package version
+        id: deploy-version
+        working-directory: devops/schema
+        run: |
+          VERSION=$(grep 'version = ' PklProject | sed 's/.*version = "\(.*\)"/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Deploy package version: $VERSION"
+
+      - name: Extract appconfig package version
+        id: appconfig-version
+        working-directory: config/schema
+        run: |
+          VERSION=$(grep 'version = ' PklProject | sed 's/.*version = "\(.*\)"/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "AppConfig package version: $VERSION"
+
+      - name: Resolve and package deploy
+        working-directory: devops/schema
+        run: |
+          pkl project resolve
+          pkl project package --output-path ../../dist
+
+      - name: Resolve and package appconfig
+        working-directory: config/schema
+        run: |
+          pkl project resolve
+          pkl project package --output-path ../../dist
+
+      - name: List generated files
+        run: ls -la dist/
+
+      - name: Create deploy package tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git push origin :refs/tags/deploy@${{ steps.deploy-version.outputs.version }} || true
+          git tag -fa "deploy@${{ steps.deploy-version.outputs.version }}" -m "Deploy package v${{ steps.deploy-version.outputs.version }}"
+          git push origin "deploy@${{ steps.deploy-version.outputs.version }}"
+
+      - name: Create appconfig package tag
+        run: |
+          git push origin :refs/tags/appconfig@${{ steps.appconfig-version.outputs.version }} || true
+          git tag -fa "appconfig@${{ steps.appconfig-version.outputs.version }}" -m "AppConfig package v${{ steps.appconfig-version.outputs.version }}"
+          git push origin "appconfig@${{ steps.appconfig-version.outputs.version }}"
+
+      - name: Create Deploy GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: deploy@${{ steps.deploy-version.outputs.version }}
+          name: deploy@${{ steps.deploy-version.outputs.version }}
+          files: |
+            dist/deploy@*
+          body: |
+            Pkl deployment schema for onlyturbofans v${{ steps.deploy-version.outputs.version }}
+
+            ## Installation
+
+            ```pkl
+            dependencies {
+              ["deploy"] {
+                uri = "package://pkg.pkl-lang.org/github.com/bmurray/onlyturbofans/deploy@${{ steps.deploy-version.outputs.version }}"
+              }
+            }
+            ```
+
+            Triggered by ${{ github.ref_name }}
+
+      - name: Create AppConfig GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: appconfig@${{ steps.appconfig-version.outputs.version }}
+          name: appconfig@${{ steps.appconfig-version.outputs.version }}
+          files: |
+            dist/appconfig@*
+          body: |
+            Pkl application config schema for onlyturbofans v${{ steps.appconfig-version.outputs.version }}
+
+            ## Installation
+
+            ```pkl
+            dependencies {
+              ["appconfig"] {
+                uri = "package://pkg.pkl-lang.org/github.com/bmurray/onlyturbofans/appconfig@${{ steps.appconfig-version.outputs.version }}"
+              }
+            }
+            ```
+
+            Triggered by ${{ github.ref_name }}

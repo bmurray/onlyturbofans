@@ -18,15 +18,15 @@ clusterIssuer: String = "letsencrypt-prod"
 domains: Listing<String>
 redirectDomains: Listing<String> = new {}
 
-local appLabels = Web.appLabels(appName)
-local allDomains: Listing<String> = new {
+hidden appLabels = Web.appLabels(appName)
+hidden allDomains: Listing<String> = new {
   ...domains
   ...redirectDomains
 }
 
-local gw = Gateway.gateway(gatewayName, appNamespace, gatewayClass, clusterIssuer, allDomains)
+hidden gw = Gateway.gateway(gatewayName, appNamespace, gatewayClass, clusterIssuer, allDomains)
 
-local k8sResources = new Listing {
+hidden k8sResources = new Listing {
   Web.namespace(appNamespace)
   gw
   Web.service(appName, appNamespace, appPort, appLabels)

@@ -6,128 +6,886 @@
   <title>OnlyTurboFans</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #f5f5f5;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-sidebar: #ffffff;
+      --accent: #00aff0;
+      --accent-hover: #0090cc;
+      --text-primary: #1a1a1a;
+      --text-secondary: #666666;
+      --text-muted: #999;
+      --border: #e0e0e0;
+      --subscribe-bg: #00aff0;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0a;
-      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
+    }
+
+    /* Top Navigation */
+    .topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+    }
+
+    .topnav-logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .topnav-logo span { color: var(--accent); }
+
+    .topnav-search {
+      flex: 0 1 400px;
+      position: relative;
+    }
+
+    .topnav-search input {
+      width: 100%;
+      padding: 8px 16px 8px 36px;
+      background: #f0f0f0;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .topnav-search input:focus { border-color: var(--accent); }
+
+    .topnav-search svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      fill: var(--text-secondary);
+    }
+
+    .topnav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topnav-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .topnav-actions button:hover { background: rgba(0,0,0,0.05); }
+
+    .topnav-actions svg { width: 22px; height: 22px; fill: var(--text-muted); }
+
+    .avatar-sm {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    /* Layout */
+    .layout {
+      display: flex;
+      margin-top: 56px;
+      min-height: calc(100vh - 56px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: 20px 0;
+      position: fixed;
+      top: 56px;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav li a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 24px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-nav li a:hover,
+    .sidebar-nav li a.active {
+      color: var(--text-primary);
+      background: rgba(0,0,0,0.04);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar-nav li a svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav li a .badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    .sidebar-section {
+      padding: 16px 24px 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      margin-left: 240px;
+      max-width: 900px;
+      padding: 24px;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-header h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-size: 0.9rem;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #00aff0, #0077cc);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero-banner h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .hero-banner p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Creator Cards */
+    .creator-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .creator-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .creator-banner {
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .creator-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner-gradient {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Unlocked content item */
+    .unlocked-item {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .unlocked-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .creator-info {
+      padding: 0 20px 16px;
+      position: relative;
+    }
+
+    .creator-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 4px solid var(--bg-card);
+      position: relative;
+      top: -40px;
+      margin-bottom: -30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .creator-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .creator-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .creator-handle {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    .creator-bio {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .creator-stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .creator-stats span strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .btn-subscribe {
+      background: var(--subscribe-bg);
+      color: #fff;
+      border: none;
+      padding: 10px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .btn-subscribe:hover {
+      background: var(--accent-hover);
+      transform: scale(1.03);
+    }
+
+    /* Blurred Content Preview */
+    .content-preview {
+      padding: 16px 20px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .content-preview-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    .blurred-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .blurred-item {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .blurred-item .blurred-bg {
+      width: 100%;
+      height: 100%;
+      filter: blur(20px) brightness(0.7);
+      transform: scale(1.2);
+      object-fit: cover;
+    }
+
+    .blurred-item .lock-overlay {
+      position: absolute;
+      inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
     }
-    header {
-      width: 100%;
-      background: linear-gradient(135deg, #00aaff, #0055cc);
-      padding: 1.5rem;
+
+    .blurred-item .lock-overlay svg {
+      width: 28px;
+      height: 28px;
+      fill: rgba(255,255,255,0.9);
+      margin-bottom: 4px;
+    }
+
+    .blurred-item .lock-overlay span {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 440px;
+      width: 90%;
+      padding: 32px;
       text-align: center;
+      position: relative;
+      animation: modalIn 0.3s ease;
     }
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
-    header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      margin-top: 0.25rem;
-    }
-    .hero {
-      max-width: 720px;
-      text-align: center;
-      padding: 3rem 1.5rem;
-    }
-    .hero .turbofan {
-      font-size: 8rem;
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1.5rem;
       line-height: 1;
-      margin-bottom: 1rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
     }
-    .hero h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
+
+    .modal-close:hover { background: rgba(0,0,0,0.05); }
+
+    .modal-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
     }
-    .hero p {
-      font-size: 1.1rem;
-      color: #aaa;
+
+    .modal h3 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: #ff4444;
+    }
+
+    .modal p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
       line-height: 1.6;
+      margin-bottom: 8px;
     }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      max-width: 960px;
-      padding: 0 1.5rem 3rem;
-      width: 100%;
+
+    .modal .shame-text {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-style: italic;
+      margin-top: 16px;
     }
-    .card {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-    }
-    .card .icon { font-size: 3rem; margin-bottom: 0.75rem; }
-    .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .card p { color: #999; font-size: 0.95rem; line-height: 1.5; }
-    .subscribe {
-      background: linear-gradient(135deg, #00aaff, #0055cc);
+
+    .modal .btn-shame {
+      margin-top: 20px;
+      background: #ff4444;
       color: #fff;
       border: none;
-      padding: 1rem 2.5rem;
-      font-size: 1.2rem;
+      padding: 12px 32px;
+      font-size: 0.95rem;
       font-weight: 700;
-      border-radius: 50px;
+      border-radius: 20px;
       cursor: pointer;
-      margin: 1rem 0 3rem;
-      transition: transform 0.2s;
+      transition: all 0.2s;
     }
-    .subscribe:hover { transform: scale(1.05); }
-    footer {
-      border-top: 1px solid #222;
-      padding: 1.5rem;
-      text-align: center;
-      color: #666;
-      font-size: 0.85rem;
-      width: 100%;
+
+    .modal .btn-shame:hover { background: #cc3333; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .topnav-search { display: none; }
+      .blurred-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>OnlyTurboFans</h1>
-    <p>Exclusive turbofan jet engine content</p>
-  </header>
-  <div class="hero">
-    <div class="turbofan">&#9992;</div>
-    <h2>Premium Turbofan Content Awaits</h2>
-    <p>
-      Subscribe for exclusive high-bypass ratio content, behind-the-nacelle footage,
-      and intimate spool-up videos you won't find anywhere else.
-      Over 100,000 lbs of thrust — unfiltered.
-    </p>
+
+<!-- Top Navigation -->
+<nav class="topnav">
+  <a href="#" class="topnav-logo"><span>Only</span>TurboFans</a>
+  <div class="topnav-search">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <input type="text" placeholder="Search engines...">
   </div>
-  <button class="subscribe" onclick="alert('Thank you for your interest in turbofan engines!')">
-    Subscribe &mdash; Free
-  </button>
-  <div class="cards">
-    <div class="card">
-      <div class="icon">&#128293;</div>
-      <h3>Hot Section Tours</h3>
-      <p>Get up close with combustion chambers running at 2,000&deg;F. Full afterburner content available for premium members.</p>
-    </div>
-    <div class="card">
-      <div class="icon">&#9881;</div>
-      <h3>Fan Blade Reveals</h3>
-      <p>Titanium fan blades slowly unveiled, one stage at a time. 78-inch diameter content that will blow you away.</p>
-    </div>
-    <div class="card">
-      <div class="icon">&#127752;</div>
-      <h3>Bypass Ratio ASMR</h3>
-      <p>Fall asleep to the soothing sounds of a GE9X at idle. 10:1 bypass ratio — pure, uncompressed audio.</p>
-    </div>
+  <div class="topnav-actions">
+    <button title="Notifications">
+      <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+    </button>
+    <button title="Messages">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+    </button>
+    <div class="avatar-sm" title="Profile">TF</div>
   </div>
-  <footer>
-    &copy; 2026 OnlyTurboFans &mdash; Not affiliated with any fan-related subscription platforms.
-    All thrust is consensual.
-  </footer>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul class="sidebar-nav">
+      <li><a href="#" class="active">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Home
+      </a></li>
+      <li><a href="#">
+        <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        Notifications
+        <span class="badge">3</span>
+      </a></li>
+      <li><a href="#">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        Messages
+      </a></li>
+      <li><a href="#">
+        <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+        Bookmarks
+      </a></li>
+      <li><a href="#">
+        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+        My Lists
+      </a></li>
+      <li><a href="#">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+        Add Card
+      </a></li>
+    </ul>
+    <div class="sidebar-section">Subscriptions</div>
+    <ul class="sidebar-nav">
+      <li><a href="#">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        None yet...
+      </a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="hero-banner">
+      <h1>Premium Turbofan Content Awaits</h1>
+      <p>Subscribe for exclusive high-bypass ratio content, behind-the-nacelle footage, and intimate spool-up videos you won't find anywhere else. Over 100,000 lbs of thrust — unfiltered.</p>
+    </div>
+    <div class="page-header">
+      <h2>Suggested Creators</h2>
+      <p>Top engine manufacturers you might enjoy following</p>
+    </div>
+
+    <div class="creator-grid">
+
+      <!-- GE Aerospace -->
+      <div class="creator-card">
+        <div class="creator-banner">
+          <img src="images/banners/ge.png" alt="GE Aerospace">
+        </div>
+        <div class="creator-info">
+          <div class="creator-avatar" style="background: linear-gradient(135deg, #0044aa, #0066dd);">GE</div>
+          <div class="creator-header">
+            <div>
+              <div class="creator-name">GE Aerospace</div>
+              <div class="creator-handle">@ge_aerospace</div>
+            </div>
+            <button class="btn-subscribe" onclick="showModal('GE Aerospace')">Subscribe</button>
+          </div>
+          <div class="creator-bio">Making the world's most powerful turbofans since 1917. Home of the GE9X, GEnx, and CF6. 134,300 lbs of thrust and counting. Unfiltered nacelle content daily.</div>
+          <div class="creator-stats">
+            <span><strong>847</strong> Posts</span>
+            <span><strong>12.4K</strong> Fans</span>
+            <span><strong>312</strong> Photos</span>
+            <span><strong>89</strong> Videos</span>
+          </div>
+        </div>
+        <div class="content-preview">
+          <div class="content-preview-label">Recent posts</div>
+          <div class="blurred-grid">
+            <div class="unlocked-item">
+              <img src="images/content/compressor.png" alt="Compressor blades">
+            </div>
+            <div class="blurred-item" onclick="showModal('GE Aerospace')">
+              <img class="blurred-bg" src="images/content/combustion.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+            <div class="blurred-item" onclick="showModal('GE Aerospace')">
+              <img class="blurred-bg" src="images/content/exhaust.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pratt & Whitney -->
+      <div class="creator-card">
+        <div class="creator-banner">
+          <img src="images/banners/pw.png" alt="Pratt & Whitney">
+        </div>
+        <div class="creator-info">
+          <div class="creator-avatar" style="background: linear-gradient(135deg, #2d1a4e, #5533aa);">PW</div>
+          <div class="creator-header">
+            <div>
+              <div class="creator-name">Pratt & Whitney</div>
+              <div class="creator-handle">@pratt_whitney</div>
+            </div>
+            <button class="btn-subscribe" onclick="showModal('Pratt & Whitney')">Subscribe</button>
+          </div>
+          <div class="creator-bio">Dependable engines since 1925. Geared Turbofan technology that whispers sweet nothings at 75dB. PW1000G content so smooth you won't believe it's real. DM for custom spool-up vids.</div>
+          <div class="creator-stats">
+            <span><strong>623</strong> Posts</span>
+            <span><strong>9.8K</strong> Fans</span>
+            <span><strong>245</strong> Photos</span>
+            <span><strong>67</strong> Videos</span>
+          </div>
+        </div>
+        <div class="content-preview">
+          <div class="content-preview-label">Recent posts</div>
+          <div class="blurred-grid">
+            <div class="blurred-item" onclick="showModal('Pratt & Whitney')">
+              <img class="blurred-bg" src="images/content/fan-blades.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+            <div class="unlocked-item">
+              <img src="images/content/turbinedisc.png" alt="Turbine disc">
+            </div>
+            <div class="blurred-item" onclick="showModal('Pratt & Whitney')">
+              <img class="blurred-bg" src="images/content/oilsystem.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rolls-Royce -->
+      <div class="creator-card">
+        <div class="creator-banner">
+          <img src="images/banners/rr.png" alt="Rolls-Royce">
+        </div>
+        <div class="creator-info">
+          <div class="creator-avatar" style="background: linear-gradient(135deg, #222, #444);">RR</div>
+          <div class="creator-header">
+            <div>
+              <div class="creator-name">Rolls-Royce</div>
+              <div class="creator-handle">@rollsroyce_aero</div>
+            </div>
+            <button class="btn-subscribe" onclick="showModal('Rolls-Royce')">Subscribe</button>
+          </div>
+          <div class="creator-bio">British engineering excellence. Trent XWB, Trent 1000, and the upcoming UltraFan. We don't just make engines, we make art. 97,000 lbs of pure, refined thrust. Only the finest bypass ratios.</div>
+          <div class="creator-stats">
+            <span><strong>534</strong> Posts</span>
+            <span><strong>8.2K</strong> Fans</span>
+            <span><strong>198</strong> Photos</span>
+            <span><strong>54</strong> Videos</span>
+          </div>
+        </div>
+        <div class="content-preview">
+          <div class="content-preview-label">Recent posts</div>
+          <div class="blurred-grid">
+            <div class="blurred-item" onclick="showModal('Rolls-Royce')">
+              <img class="blurred-bg" src="images/content/bypass-duct.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+            <div class="blurred-item" onclick="showModal('Rolls-Royce')">
+              <img class="blurred-bg" src="images/content/compressor.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+            <div class="unlocked-item">
+              <img src="images/content/afterburner.png" alt="Afterburner detail">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CFM International -->
+      <div class="creator-card">
+        <div class="creator-banner">
+          <img src="images/banners/cfm.png" alt="CFM International">
+        </div>
+        <div class="creator-info">
+          <div class="creator-avatar" style="background: linear-gradient(135deg, #1a5a1a, #2a8a2a);">CFM</div>
+          <div class="creator-header">
+            <div>
+              <div class="creator-name">CFM International</div>
+              <div class="creator-handle">@cfm_intl</div>
+            </div>
+            <button class="btn-subscribe" onclick="showModal('CFM International')">Subscribe</button>
+          </div>
+          <div class="creator-bio">A joint venture between GE and Safran. The LEAP engine powers the 737 MAX and A320neo. We're the most popular engine on the planet. 33,000 engines delivered and counting. Free trial includes one fan blade inspection.</div>
+          <div class="creator-stats">
+            <span><strong>1,204</strong> Posts</span>
+            <span><strong>15.7K</strong> Fans</span>
+            <span><strong>467</strong> Photos</span>
+            <span><strong>123</strong> Videos</span>
+          </div>
+        </div>
+        <div class="content-preview">
+          <div class="content-preview-label">Recent posts</div>
+          <div class="blurred-grid">
+            <div class="unlocked-item">
+              <img src="images/content/exhaust.png" alt="Exhaust nozzle">
+            </div>
+            <div class="unlocked-item">
+              <img src="images/content/oilsystem.png" alt="Oil system detail">
+            </div>
+            <div class="blurred-item" onclick="showModal('CFM International')">
+              <img class="blurred-bg" src="images/content/afterburner.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boom Supersonic -->
+      <div class="creator-card">
+        <div class="creator-banner">
+          <img src="images/banners/boom.png" alt="Boom Supersonic" style="object-position: center 85%;">
+        </div>
+        <div class="creator-info">
+          <div class="creator-avatar" style="background: linear-gradient(135deg, #cc3300, #ff5500);">B</div>
+          <div class="creator-header">
+            <div>
+              <div class="creator-name">Boom Supersonic</div>
+              <div class="creator-handle">@boom_supersonic</div>
+            </div>
+            <button class="btn-subscribe" onclick="showModal('Boom Supersonic')">Subscribe</button>
+          </div>
+          <div class="creator-bio">Breaking the sound barrier and your expectations. The Symphony engine is 100% bespoke, medium-bypass, and built for Mach 1.7. Concorde walked so we could fly. Supersonic content that'll hit you before you hear it.</div>
+          <div class="creator-stats">
+            <span><strong>312</strong> Posts</span>
+            <span><strong>6.1K</strong> Fans</span>
+            <span><strong>156</strong> Photos</span>
+            <span><strong>41</strong> Videos</span>
+          </div>
+        </div>
+        <div class="content-preview">
+          <div class="content-preview-label">Recent posts</div>
+          <div class="blurred-grid">
+            <div class="blurred-item" onclick="showModal('Boom Supersonic')">
+              <img class="blurred-bg" src="images/content/turbinedisc.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+            <div class="unlocked-item">
+              <img src="images/content/combustion.png" alt="Combustion chamber">
+            </div>
+            <div class="blurred-item" onclick="showModal('Boom Supersonic')">
+              <img class="blurred-bg" src="images/content/fan-blades.png" alt="">
+              <div class="lock-overlay">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span>Locked</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Scolding Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-icon" id="modal-icon"></div>
+    <h3 id="modal-title"></h3>
+    <p id="modal-text"></p>
+    <p class="shame-text" id="modal-shame"></p>
+    <button class="btn-shame" onclick="closeModal()">I'm Sorry</button>
+  </div>
+</div>
+
+<script>
+  const scoldings = [
+    {
+      icon: "\u{1F6A8}",
+      title: "Caught in 4K!",
+      text: "You really just tried to subscribe to {creator}? On a website called OnlyTurboFans? What exactly were you expecting to find here?",
+      shame: "Your browser history has been noted."
+    },
+    {
+      icon: "\u{1F928}",
+      title: "Absolutely Shameful",
+      text: "You clicked subscribe on {creator} without even reading the website name properly, didn't you? This is about JET ENGINES. Turbofans. The spinny things on airplanes.",
+      shame: "We're not mad, just disappointed."
+    },
+    {
+      icon: "\u{1F46E}",
+      title: "Bonk! Go to Horny Jail!",
+      text: "Sir/Ma'am, this is a {creator} fan page. As in literal fans. That spin. On jet engines. What were you hoping to see behind that blur?",
+      shame: "Your ISP has been notified. (Not really, but you deserve the scare.)"
+    },
+    {
+      icon: "\u{1F9D0}",
+      title: "Interesting Click...",
+      text: "So you saw '{creator}' with blurred content and thought 'yes, I need to see what's behind that.' It's a turbine. It's always been a turbine. The website is literally called OnlyTurboFans.",
+      shame: "Close this tab before someone sees."
+    },
+    {
+      icon: "\u{2708}\uFE0F",
+      title: "Ma'am, This Is a Hangar",
+      text: "You've just tried to subscribe to {creator}'s exclusive content. Their content is high-bypass turbofan engines. That's it. That's all it's ever been. Read the room.",
+      shame: "The TSA has added you to a list. Not that list. A different, more embarrassing list."
+    }
+  ];
+
+  let lastIndex = -1;
+
+  function showModal(creatorName) {
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * scoldings.length);
+    } while (idx === lastIndex && scoldings.length > 1);
+    lastIndex = idx;
+
+    const s = scoldings[idx];
+    document.getElementById("modal-icon").textContent = s.icon;
+    document.getElementById("modal-title").textContent = s.title;
+    document.getElementById("modal-text").textContent = s.text.replace("{creator}", creatorName);
+    document.getElementById("modal-shame").textContent = s.shame;
+    document.getElementById("modal").classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(e) {
+    if (e && e.target !== document.getElementById("modal")) return;
+    document.getElementById("modal").classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeModal();
+  });
+</script>
+
 </body>
 </html>

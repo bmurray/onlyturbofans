@@ -96,11 +96,23 @@
       padding: 6px;
       border-radius: 50%;
       transition: background 0.2s;
+      position: relative;
     }
 
     .topnav-actions button:hover { background: rgba(0,0,0,0.05); }
 
     .topnav-actions svg { width: 22px; height: 22px; fill: var(--text-muted); }
+
+    .notif-dot {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 8px;
+      height: 8px;
+      background: #ff4444;
+      border-radius: 50%;
+      border: 2px solid var(--bg-secondary);
+    }
 
     .avatar-sm {
       width: 32px;
@@ -182,6 +194,73 @@
       letter-spacing: 0.05em;
     }
 
+    /* DM Previews */
+    .dm-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .dm-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .dm-item:hover { background: rgba(0,0,0,0.04); }
+
+    .dm-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .dm-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dm-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dm-preview-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+
+    .dm-time {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .dm-unread-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     /* Main Content */
     .main {
       flex: 1;
@@ -229,6 +308,83 @@
       margin: 0 auto;
     }
 
+    /* Stories Bar */
+    .stories-bar {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .stories-bar::-webkit-scrollbar { display: none; }
+
+    .story-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .story-ring {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #00aff0, #0077cc, #00aff0);
+    }
+
+    .story-ring.watched {
+      background: var(--border);
+    }
+
+    .story-ring.live {
+      background: linear-gradient(135deg, #ff4444, #ff6600, #ff4444);
+      animation: liveRing 2s ease infinite;
+    }
+
+    @keyframes liveRing {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,68,68,0.4); }
+      50% { box-shadow: 0 0 0 4px rgba(255,68,68,0); }
+    }
+
+    .story-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3px solid var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .story-name {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      max-width: 70px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .story-live-badge {
+      font-size: 0.55rem;
+      background: #ff4444;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: -3px;
+    }
+
     /* Creator Cards */
     .creator-grid {
       display: flex;
@@ -266,12 +422,25 @@
       aspect-ratio: 1;
       border-radius: 8px;
       overflow: hidden;
+      position: relative;
     }
 
     .unlocked-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .post-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 8px 6px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: #fff;
+      font-size: 0.65rem;
+      line-height: 1.3;
     }
 
     .creator-info {
@@ -304,6 +473,26 @@
     .creator-name {
       font-size: 1.15rem;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .verified-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: #fff;
     }
 
     .creator-handle {
@@ -336,19 +525,30 @@
       background: var(--subscribe-bg);
       color: #fff;
       border: none;
-      padding: 10px 28px;
-      font-size: 0.9rem;
+      padding: 10px 20px;
+      font-size: 0.85rem;
       font-weight: 700;
       border-radius: 20px;
       cursor: pointer;
       transition: all 0.2s;
       text-transform: uppercase;
       letter-spacing: 0.03em;
+      text-align: center;
+      line-height: 1.3;
     }
 
     .btn-subscribe:hover {
       background: var(--accent-hover);
       transform: scale(1.03);
+    }
+
+    .price-thrust {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 500;
+      opacity: 0.85;
+      text-transform: none;
+      letter-spacing: 0;
     }
 
     /* Blurred Content Preview */
@@ -409,6 +609,135 @@
       color: rgba(255,255,255,0.9);
       font-weight: 600;
       text-transform: uppercase;
+    }
+
+    /* Comments Section */
+    .comments-section {
+      padding: 0 20px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .comments-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0 8px;
+    }
+
+    .comments-header span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .comments-header a {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .comment {
+      display: flex;
+      gap: 8px;
+      padding: 6px 0;
+    }
+
+    .comment-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .comment-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .comment-username {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .comment-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-top: 1px;
+    }
+
+    .comment-meta {
+      display: flex;
+      gap: 12px;
+      margin-top: 3px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .comment-meta a {
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .comment-meta a:hover { color: var(--text-primary); }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 300px;
+      max-width: 380px;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .toast.show { transform: translateX(0); }
+
+    .toast-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+    .toast-content { flex: 1; }
+
+    .toast-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .toast-text {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 1px;
+    }
+
+    .toast-time {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
     }
 
     /* Modal */
@@ -500,11 +829,28 @@
     .modal .btn-shame:hover { background: #cc3333; }
 
     /* Responsive */
+    html, body { overflow-x: hidden; }
+
     @media (max-width: 768px) {
       .sidebar { display: none; }
-      .main { margin-left: 0; }
+      .main { margin-left: 0; padding: 12px; max-width: 100%; }
       .topnav-search { display: none; }
+      .topnav { padding: 0 12px; }
+      .hero-banner { padding: 20px 16px; }
+      .hero-banner h1 { font-size: 1.2rem; }
+      .hero-banner p { font-size: 0.85rem; }
+      .stories-bar { gap: 12px; padding: 12px 0; margin-bottom: 16px; }
+      .story-ring { width: 52px; height: 52px; }
+      .story-name { font-size: 0.6rem; max-width: 56px; }
+      .creator-header { flex-direction: column; gap: 10px; }
+      .btn-subscribe { align-self: stretch; }
+      .creator-info { padding: 0 14px 14px; }
+      .content-preview { padding: 12px 14px 16px; }
+      .comments-section { padding: 0 14px 12px; }
+      .creator-stats { flex-wrap: wrap; gap: 10px; }
       .blurred-grid { grid-template-columns: repeat(2, 1fr); }
+      .toast-container { right: 8px; bottom: 8px; left: 8px; }
+      .toast { min-width: 0; max-width: 100%; }
     }
   </style>
 </head>
@@ -520,9 +866,11 @@
   <div class="topnav-actions">
     <button title="Notifications">
       <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+      <span class="notif-dot"></span>
     </button>
     <button title="Messages">
       <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+      <span class="notif-dot"></span>
     </button>
     <div class="avatar-sm" title="Profile">TF</div>
   </div>
@@ -541,11 +889,12 @@
       <li><a href="#">
         <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
         Notifications
-        <span class="badge">3</span>
+        <span class="badge">7</span>
       </a></li>
       <li><a href="#">
         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
         Messages
+        <span class="badge">3</span>
       </a></li>
       <li><a href="#">
         <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
@@ -567,6 +916,47 @@
         None yet...
       </a></li>
     </ul>
+    <div class="sidebar-section">Recent DMs</div>
+    <ul class="dm-list">
+      <li class="dm-item" onclick="showModal('GE Aerospace')">
+        <div class="dm-avatar" style="background: linear-gradient(135deg, #0044aa, #0066dd);">GE</div>
+        <div class="dm-content">
+          <div class="dm-name">GE Aerospace <span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
+          <div class="dm-preview-text">Hey, want to see my new fan blade design? It's 4th gen CMC...</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          <div class="dm-time">2m</div>
+          <div class="dm-unread-dot"></div>
+        </div>
+      </li>
+      <li class="dm-item" onclick="showModal('Pratt & Whitney')">
+        <div class="dm-avatar" style="background: linear-gradient(135deg, #2d1a4e, #5533aa);">PW</div>
+        <div class="dm-content">
+          <div class="dm-name">Pratt & Whitney</div>
+          <div class="dm-preview-text">Just filmed a geared turbofan spool-up just for you...</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          <div class="dm-time">18m</div>
+          <div class="dm-unread-dot"></div>
+        </div>
+      </li>
+      <li class="dm-item" onclick="showModal('Rolls-Royce')">
+        <div class="dm-avatar" style="background: linear-gradient(135deg, #222, #444);">RR</div>
+        <div class="dm-content">
+          <div class="dm-name">Rolls-Royce</div>
+          <div class="dm-preview-text">Exclusive UltraFan test footage... 100k+ lbf 😏</div>
+        </div>
+        <div class="dm-time">1h</div>
+      </li>
+      <li class="dm-item" onclick="showModal('CFM International')">
+        <div class="dm-avatar" style="background: linear-gradient(135deg, #1a5a1a, #2a8a2a);">CFM</div>
+        <div class="dm-content">
+          <div class="dm-name">CFM International</div>
+          <div class="dm-preview-text">LEAP-1B fan blade inspection gallery unlocked for you 🔓</div>
+        </div>
+        <div class="dm-time">3h</div>
+      </li>
+    </ul>
   </aside>
 
   <!-- Main Content -->
@@ -575,6 +965,67 @@
       <h1>Premium Turbofan Content Awaits</h1>
       <p>Subscribe for exclusive high-bypass ratio content, behind-the-nacelle footage, and intimate spool-up videos you won't find anywhere else. Over 100,000 lbs of thrust — unfiltered.</p>
     </div>
+
+    <!-- Stories Bar -->
+    <div class="stories-bar">
+      <div class="story-item" onclick="showModal('GE Aerospace')">
+        <div class="story-ring live">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #0044aa, #0066dd);">GE</div>
+        </div>
+        <span class="story-live-badge">LIVE</span>
+        <span class="story-name">GE Aerospace</span>
+      </div>
+      <div class="story-item" onclick="showModal('Pratt & Whitney')">
+        <div class="story-ring">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #2d1a4e, #5533aa);">PW</div>
+        </div>
+        <span class="story-name">Pratt & Whitney</span>
+      </div>
+      <div class="story-item" onclick="showModal('Rolls-Royce')">
+        <div class="story-ring">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #222, #444);">RR</div>
+        </div>
+        <span class="story-name">Rolls-Royce</span>
+      </div>
+      <div class="story-item" onclick="showModal('CFM International')">
+        <div class="story-ring">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #1a5a1a, #2a8a2a);">CFM</div>
+        </div>
+        <span class="story-name">CFM Intl</span>
+      </div>
+      <div class="story-item" onclick="showModal('Boom Supersonic')">
+        <div class="story-ring">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #cc3300, #ff5500);">B</div>
+        </div>
+        <span class="story-name">Boom</span>
+      </div>
+      <div class="story-item" onclick="showModal('Boeing')">
+        <div class="story-ring live">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #003087, #0055cc);">BA</div>
+        </div>
+        <span class="story-live-badge">CRISIS</span>
+        <span class="story-name">Boeing</span>
+      </div>
+      <div class="story-item" onclick="showModal('Airbus')">
+        <div class="story-ring watched">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #003399, #0055ff);">AB</div>
+        </div>
+        <span class="story-name">Airbus (smug)</span>
+      </div>
+      <div class="story-item" onclick="showModal('The FAA')">
+        <div class="story-ring watched">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #333, #666);">FAA</div>
+        </div>
+        <span class="story-name">FAA (watching)</span>
+      </div>
+      <div class="story-item" onclick="showModal('Spirit AeroSystems')">
+        <div class="story-ring">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #8B4513, #D2691E);">SA</div>
+        </div>
+        <span class="story-name">Spirit Aero</span>
+      </div>
+    </div>
+
     <div class="page-header">
       <h2>Suggested Creators</h2>
       <p>Top engine manufacturers you might enjoy following</p>
@@ -591,10 +1042,10 @@
           <div class="creator-avatar" style="background: linear-gradient(135deg, #0044aa, #0066dd);">GE</div>
           <div class="creator-header">
             <div>
-              <div class="creator-name">GE Aerospace</div>
+              <div class="creator-name">GE Aerospace <span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
               <div class="creator-handle">@ge_aerospace</div>
             </div>
-            <button class="btn-subscribe" onclick="showModal('GE Aerospace')">Subscribe</button>
+            <button class="btn-subscribe" onclick="showModal('GE Aerospace')">Subscribe · $14.99<span class="price-thrust">134,300 lbf/month</span></button>
           </div>
           <div class="creator-bio">Making the world's most powerful turbofans since 1917. Home of the GE9X, GEnx, and CF6. 134,300 lbs of thrust and counting. Unfiltered nacelle content daily.</div>
           <div class="creator-stats">
@@ -609,6 +1060,7 @@
           <div class="blurred-grid">
             <div class="unlocked-item">
               <img src="images/content/compressor.png" alt="Compressor blades">
+              <div class="post-caption">Just got my stage 11 compressor blades polished... feeling pretty 🔥 #NacelleLife</div>
             </div>
             <div class="blurred-item" onclick="showModal('GE Aerospace')">
               <img class="blurred-bg" src="images/content/combustion.png" alt="">
@@ -626,6 +1078,28 @@
             </div>
           </div>
         </div>
+        <div class="comments-section">
+          <div class="comments-header">
+            <span>Comments (24)</span>
+            <a>View all</a>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #e74c3c;">TL</div>
+            <div class="comment-body">
+              <span class="comment-username">@turbine_lover_99</span>
+              <div class="comment-text">omg those compressor blades are GORGEOUS 😍 the way the titanium catches the light</div>
+              <div class="comment-meta"><a>4h</a> <a>Reply</a> <a>❤️ 47</a></div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #3498db;">AN</div>
+            <div class="comment-body">
+              <span class="comment-username">@aviation_nerd_42</span>
+              <div class="comment-text">GE9X content when?? I NEED more high-bypass ratio content in my life 🥵</div>
+              <div class="comment-meta"><a>2h</a> <a>Reply</a> <a>❤️ 31</a></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Pratt & Whitney -->
@@ -637,10 +1111,10 @@
           <div class="creator-avatar" style="background: linear-gradient(135deg, #2d1a4e, #5533aa);">PW</div>
           <div class="creator-header">
             <div>
-              <div class="creator-name">Pratt & Whitney</div>
+              <div class="creator-name">Pratt & Whitney <span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
               <div class="creator-handle">@pratt_whitney</div>
             </div>
-            <button class="btn-subscribe" onclick="showModal('Pratt & Whitney')">Subscribe</button>
+            <button class="btn-subscribe" onclick="showModal('Pratt & Whitney')">Subscribe · $12.99<span class="price-thrust">33,110 lbf/month</span></button>
           </div>
           <div class="creator-bio">Dependable engines since 1925. Geared Turbofan technology that whispers sweet nothings at 75dB. PW1000G content so smooth you won't believe it's real. DM for custom spool-up vids.</div>
           <div class="creator-stats">
@@ -662,6 +1136,7 @@
             </div>
             <div class="unlocked-item">
               <img src="images/content/turbinedisc.png" alt="Turbine disc">
+              <div class="post-caption">Turbine disc fresh out of the forge. 1,800°F and still looking this good 😏 #GlowUp</div>
             </div>
             <div class="blurred-item" onclick="showModal('Pratt & Whitney')">
               <img class="blurred-bg" src="images/content/oilsystem.png" alt="">
@@ -669,6 +1144,28 @@
                 <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                 <span>Locked</span>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="comments-section">
+          <div class="comments-header">
+            <span>Comments (18)</span>
+            <a>View all</a>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #9b59b6;">GF</div>
+            <div class="comment-body">
+              <span class="comment-username">@geared_fan_boy</span>
+              <div class="comment-text">that disc is PRISTINE... PW really knows how to forge 🔥 geared turbofan supremacy</div>
+              <div class="comment-meta"><a>6h</a> <a>Reply</a> <a>❤️ 38</a></div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #2ecc71;">QT</div>
+            <div class="comment-body">
+              <span class="comment-username">@quiet_thrust_asmr</span>
+              <div class="comment-text">75dB and looking this good? GTF tech is unmatched. I literally fell asleep to the spool-up audio 😴💦</div>
+              <div class="comment-meta"><a>3h</a> <a>Reply</a> <a>❤️ 22</a></div>
             </div>
           </div>
         </div>
@@ -683,10 +1180,10 @@
           <div class="creator-avatar" style="background: linear-gradient(135deg, #222, #444);">RR</div>
           <div class="creator-header">
             <div>
-              <div class="creator-name">Rolls-Royce</div>
+              <div class="creator-name">Rolls-Royce <span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
               <div class="creator-handle">@rollsroyce_aero</div>
             </div>
-            <button class="btn-subscribe" onclick="showModal('Rolls-Royce')">Subscribe</button>
+            <button class="btn-subscribe" onclick="showModal('Rolls-Royce')">Subscribe · $13.99<span class="price-thrust">97,000 lbf/month</span></button>
           </div>
           <div class="creator-bio">British engineering excellence. Trent XWB, Trent 1000, and the upcoming UltraFan. We don't just make engines, we make art. 97,000 lbs of pure, refined thrust. Only the finest bypass ratios.</div>
           <div class="creator-stats">
@@ -715,6 +1212,29 @@
             </div>
             <div class="unlocked-item">
               <img src="images/content/afterburner.png" alt="Afterburner detail">
+              <div class="post-caption">Late night reheat session... couldn't sleep 🌙 #AfterburnerHours #NoFilter</div>
+            </div>
+          </div>
+        </div>
+        <div class="comments-section">
+          <div class="comments-header">
+            <span>Comments (12)</span>
+            <a>View all</a>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #1abc9c;">BT</div>
+            <div class="comment-body">
+              <span class="comment-username">@british_thrust</span>
+              <div class="comment-text">proper British engineering right there, no cap 🇬🇧 Trent XWB is the Bentley of turbofans</div>
+              <div class="comment-meta"><a>5h</a> <a>Reply</a> <a>❤️ 56</a></div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #e67e22;">TE</div>
+            <div class="comment-body">
+              <span class="comment-username">@trent_enthusiast</span>
+              <div class="comment-text">afterburner content is S-tier... the glow at 2AM hits different 🥵🔥</div>
+              <div class="comment-meta"><a>1h</a> <a>Reply</a> <a>❤️ 29</a></div>
             </div>
           </div>
         </div>
@@ -729,10 +1249,10 @@
           <div class="creator-avatar" style="background: linear-gradient(135deg, #1a5a1a, #2a8a2a);">CFM</div>
           <div class="creator-header">
             <div>
-              <div class="creator-name">CFM International</div>
+              <div class="creator-name">CFM International <span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
               <div class="creator-handle">@cfm_intl</div>
             </div>
-            <button class="btn-subscribe" onclick="showModal('CFM International')">Subscribe</button>
+            <button class="btn-subscribe" onclick="showModal('CFM International')">Subscribe · $9.99<span class="price-thrust">32,160 lbf/month</span></button>
           </div>
           <div class="creator-bio">A joint venture between GE and Safran. The LEAP engine powers the 737 MAX and A320neo. We're the most popular engine on the planet. 33,000 engines delivered and counting. Free trial includes one fan blade inspection.</div>
           <div class="creator-stats">
@@ -747,9 +1267,11 @@
           <div class="blurred-grid">
             <div class="unlocked-item">
               <img src="images/content/exhaust.png" alt="Exhaust nozzle">
+              <div class="post-caption">Showing off my exhaust nozzle on a cold morning... visible thrust hits different ❄️</div>
             </div>
             <div class="unlocked-item">
               <img src="images/content/oilsystem.png" alt="Oil system detail">
+              <div class="post-caption">Oil system maintenance day. Getting all lubed up for tomorrow's flight 💦 #SelfCare</div>
             </div>
             <div class="blurred-item" onclick="showModal('CFM International')">
               <img class="blurred-bg" src="images/content/afterburner.png" alt="">
@@ -757,6 +1279,28 @@
                 <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                 <span>Locked</span>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="comments-section">
+          <div class="comments-header">
+            <span>Comments (42)</span>
+            <a>View all</a>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #f39c12;">LS</div>
+            <div class="comment-body">
+              <span class="comment-username">@leap_simp_2024</span>
+              <div class="comment-text">2 unlocked posts?? CFM is SO generous 😭 this is why you have 15K fans. LEAP supremacy</div>
+              <div class="comment-meta"><a>7h</a> <a>Reply</a> <a>❤️ 64</a></div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #c0392b;">NK</div>
+            <div class="comment-body">
+              <span class="comment-username">@narrow_body_king</span>
+              <div class="comment-text">that exhaust nozzle geometry is chef's kiss 👨‍🍳 the aerodynamics on this one... I can't</div>
+              <div class="comment-meta"><a>4h</a> <a>Reply</a> <a>❤️ 41</a></div>
             </div>
           </div>
         </div>
@@ -771,10 +1315,10 @@
           <div class="creator-avatar" style="background: linear-gradient(135deg, #cc3300, #ff5500);">B</div>
           <div class="creator-header">
             <div>
-              <div class="creator-name">Boom Supersonic</div>
+              <div class="creator-name">Boom Supersonic <span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
               <div class="creator-handle">@boom_supersonic</div>
             </div>
-            <button class="btn-subscribe" onclick="showModal('Boom Supersonic')">Subscribe</button>
+            <button class="btn-subscribe" onclick="showModal('Boom Supersonic')">Subscribe · $19.99<span class="price-thrust">35,000 lbf/month</span></button>
           </div>
           <div class="creator-bio">Breaking the sound barrier and your expectations. The Symphony engine is 100% bespoke, medium-bypass, and built for Mach 1.7. Concorde walked so we could fly. Supersonic content that'll hit you before you hear it.</div>
           <div class="creator-stats">
@@ -796,6 +1340,7 @@
             </div>
             <div class="unlocked-item">
               <img src="images/content/combustion.png" alt="Combustion chamber">
+              <div class="post-caption">Combustion chamber running hot today. Mach 1.7 energy 🔥 #SupersonicVibes</div>
             </div>
             <div class="blurred-item" onclick="showModal('Boom Supersonic')">
               <img class="blurred-bg" src="images/content/fan-blades.png" alt="">
@@ -806,11 +1351,36 @@
             </div>
           </div>
         </div>
+        <div class="comments-section">
+          <div class="comments-header">
+            <span>Comments (9)</span>
+            <a>View all</a>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #e74c3c;">MD</div>
+            <div class="comment-body">
+              <span class="comment-username">@mach_daddy_17</span>
+              <div class="comment-text">supersonic content hits different at 1.7x speed... literally 🛫💨</div>
+              <div class="comment-meta"><a>8h</a> <a>Reply</a> <a>❤️ 19</a></div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #8e44ad;">CG</div>
+            <div class="comment-body">
+              <span class="comment-username">@concorde_ghost</span>
+              <div class="comment-text">Concorde walked so Boom could FLY. I'm not crying you're crying 😤✈️</div>
+              <div class="comment-meta"><a>5h</a> <a>Reply</a> <a>❤️ 73</a></div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
   </main>
 </div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toast-container"></div>
 
 <!-- Scolding Modal -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
@@ -885,6 +1455,84 @@
   document.addEventListener("keydown", function(e) {
     if (e.key === "Escape") closeModal();
   });
+
+  // Toast Notification System
+  const toastMessages = [
+    { icon: "\u{1F525}", title: "GE Aerospace", text: "just posted a new photo! \"Nacelle reveal coming soon...\"" },
+    { icon: "\u{1F4AC}", title: "Pratt & Whitney", text: "sent you a message: \"Hey, want a custom spool-up?\"" },
+    { icon: "\u{2764}\uFE0F", title: "Rolls-Royce", text: "liked your comment on their afterburner post" },
+    { icon: "\u{1F534}", title: "CFM International", text: "is going LIVE! \"LEAP-1B teardown stream\"" },
+    { icon: "\u{1F4F8}", title: "Boom Supersonic", text: "added to their story: \"Mach 1.7 test footage\"" },
+    { icon: "\u{1F389}", title: "OnlyTurboFans", text: "Congrats! You've viewed 100 turbine photos today" },
+    { icon: "\u{1F514}", title: "GE Aerospace", text: "is offering 50% off! Now only 67,150 lbf/month" },
+    { icon: "\u{1F48C}", title: "Pratt & Whitney", text: "wants to send you exclusive GTF content" },
+    { icon: "\u{26A0}\uFE0F", title: "Boeing", text: "posted a new crisis update (again)" },
+    { icon: "\u{1F60F}", title: "Airbus", text: "commented: \"Our engines don't fall off btw\"" },
+    { icon: "\u{1F440}", title: "FAA", text: "is watching your browsing activity on this site" },
+    { icon: "\u{1F527}", title: "Spirit AeroSystems", text: "posted: \"Door plug inspection ASMR (40 min)\"" },
+  ];
+
+  let toastQueue = [...toastMessages];
+  let activeToasts = 0;
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function showToast() {
+    if (activeToasts >= 2) return;
+    if (toastQueue.length === 0) {
+      toastQueue = shuffleArray([...toastMessages]);
+    }
+
+    const msg = toastQueue.pop();
+    const container = document.getElementById("toast-container");
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerHTML = `
+      <span class="toast-icon">${msg.icon}</span>
+      <div class="toast-content">
+        <div class="toast-title">${msg.title}</div>
+        <div class="toast-text">${msg.text}</div>
+      </div>
+      <span class="toast-time">now</span>
+    `;
+    toast.onclick = function() {
+      showModal(msg.title);
+      removeToast(toast);
+    };
+
+    container.appendChild(toast);
+    activeToasts++;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        toast.classList.add("show");
+      });
+    });
+
+    setTimeout(() => removeToast(toast), 5000);
+  }
+
+  function removeToast(toast) {
+    if (!toast.parentNode) return;
+    toast.classList.remove("show");
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+        activeToasts--;
+      }
+    }, 400);
+  }
+
+  // Start toast notifications after a short delay
+  shuffleArray(toastQueue);
+  setTimeout(showToast, 4000);
+  setInterval(showToast, 8000 + Math.random() * 4000);
 </script>
 
 </body>

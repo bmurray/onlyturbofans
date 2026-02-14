@@ -3,7 +3,7 @@ amends "pkl:Project"
 package {
   name = "appconfig"
   baseUri = "package://pkg.pkl-lang.org/github.com/bmurray/onlyturbofans/appconfig"
-  version = "0.1.0"
+  version = "0.2.0"
   packageZipUrl = "https://github.com/bmurray/onlyturbofans/releases/download/appconfig@\(version)/appconfig@\(version).zip"
   description = "Pkl application configuration schema for onlyturbofans"
   authors {

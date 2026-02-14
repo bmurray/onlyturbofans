@@ -35,17 +35,13 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "AppConfig package version: $VERSION"
 
-      - name: Resolve and package deploy
+      - name: Package deploy
         working-directory: devops/schema
-        run: |
-          pkl project resolve
-          pkl project package --output-path ../../dist
+        run: pkl project package --output-path ../../dist
 
-      - name: Resolve and package appconfig
+      - name: Package appconfig
         working-directory: config/schema
-        run: |
-          pkl project resolve
-          pkl project package --output-path ../../dist
+        run: pkl project package --output-path ../../dist
 
       - name: List generated files
         run: ls -la dist/

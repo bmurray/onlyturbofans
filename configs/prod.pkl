@@ -1,0 +1,16 @@
+/// Production deploy config for onlyturbofans.
+/// CI evaluates this module to a single multi-doc YAML stream.
+///
+/// Requires env VERSION (image tag), e.g. `0.6.0` from a `v0.6.0` release tag.
+/// Never defaults to `latest` — that breaks pull-based deploys.
+amends "@schema/Config.pkl"
+
+version = read("env:VERSION")
+
+domains {
+  "onlyturbofans.com"
+}
+
+redirectDomains {
+  "www.onlyturbofans.com"
+}

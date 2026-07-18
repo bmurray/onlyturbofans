@@ -1,0 +1,51 @@
+name: Generate Manifests
+
+# Validate config on PR/main. Release OCI push lives in docker-image.yml (v* tags).
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pkl
+        uses: pkl-community/setup-pkl@v0
+        with:
+          pkl-version: "0.32.0"
+
+      - name: Resolve version
+        run: |
+          VERSION="sha-${GITHUB_SHA::12}"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          echo "Using VERSION=${VERSION}"
+
+      - name: Resolve project dependencies
+        run: |
+          pkl project resolve schema
+          pkl project resolve configs
+
+      - name: Generate manifests
+        env:
+          VERSION: ${{ env.VERSION }}
+        run: |
+          mkdir -p dist
+          test -n "${VERSION}" || { echo "VERSION is empty"; exit 1; }
+          pkl eval --project-dir configs configs/prod.pkl > dist/manifests.yaml
+          echo "---- manifests.yaml (image pin) ----"
+          grep -E 'image:|hostname:' dist/manifests.yaml || true
+          test -s dist/manifests.yaml
+
+      - name: Upload manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: manifests-${{ env.VERSION }}
+          path: dist/manifests.yaml
+          if-no-files-found: error

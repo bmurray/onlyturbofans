@@ -1,6 +1,11 @@
 {
   "schemaVersion": 1,
   "resolvedDependencies": {
+    "package://localhost:0/onlyturbofans/schema@0": {
+      "type": "local",
+      "uri": "projectpackage://localhost:0/onlyturbofans/schema@0.1.0",
+      "path": "../schema"
+    },
     "package://pkg.pkl-lang.org/pkl-k8s/k8s@1": {
       "type": "remote",
       "uri": "projectpackage://pkg.pkl-lang.org/pkl-k8s/k8s@1.3.0",

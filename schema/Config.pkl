@@ -1,12 +1,17 @@
+/// Deployment schema for onlyturbofans.
+/// Not safe to evaluate alone: domains + version required. Use configs/ instead.
 module Config
 
-import "@devops-shared/Web.pkl"
-import "@devops-shared/Gateway.pkl"
-import "@devops-shared/HTTP.pkl"
+import "@k8s/api/core/v1/Namespace.pkl"
+import "@k8s/api/core/v1/Service.pkl"
+import "@k8s/api/apps/v1/Deployment.pkl"
+import "@gateway-api/v1/Gateway.pkl"
+import "@gateway-api/v1/HTTPRoute.pkl"
 
 appName: String = "onlyturbofans"
 appNamespace: String = "onlyturbofans"
-hidden version: String = "latest"
+/// Image tag / digest suffix. Required — set via configs (typically env:VERSION).
+hidden version: String
 image: String = "ghcr.io/bmurray/onlyturbofans:\(version)"
 replicas: Int = 1
 appPort: Int = 80
@@ -15,34 +20,235 @@ gatewayName: String = "main-gateway"
 gatewayClass: String = "traefik"
 clusterIssuer: String = "letsencrypt-prod"
 
-domains: Listing<String>
+/// Primary hostnames that serve the site. Must be non-empty (set in configs/).
+domains: Listing<String>(length > 0)
+/// Hostnames that 301-redirect to domains.first.
 redirectDomains: Listing<String> = new {}
 
-hidden appLabels = Web.appLabels(appName)
+hidden appLabels: Mapping<String, String> = new {
+  ["app.kubernetes.io/name"] = appName
+  ["app.kubernetes.io/instance"] = appName
+}
+
 hidden allDomains: Listing<String> = new {
   ...domains
   ...redirectDomains
 }
 
-hidden gw = Gateway.gateway(gatewayName, appNamespace, gatewayClass, clusterIssuer, allDomains)
+hidden namespace = new Namespace {
+  metadata {
+    name = appNamespace
+  }
+}
 
-hidden k8sResources = new Listing {
-  Web.namespace(appNamespace)
-  gw
-  Web.service(appName, appNamespace, appPort, appLabels)
-  Web.deployment(appName, appNamespace, image, replicas, appPort, appLabels)
-  ...HTTP.routes(appName, gw, domains, redirectDomains)
+hidden service = new Service {
+  metadata {
+    name = appName
+    namespace = appNamespace
+    labels = appLabels
+  }
+  spec {
+    selector = appLabels
+    ports {
+      new {
+        name = "http"
+        port = 80
+        targetPort = appPort
+        protocol = "TCP"
+      }
+    }
+  }
+}
+
+hidden deployment = new Deployment {
+  metadata {
+    name = appName
+    namespace = appNamespace
+    labels = appLabels
+  }
+  spec {
+    replicas = module.replicas
+    selector {
+      matchLabels = appLabels
+    }
+    template {
+      metadata {
+        labels = appLabels
+      }
+      spec {
+        containers {
+          new {
+            name = appName
+            image = module.image
+            ports {
+              new {
+                containerPort = appPort
+                name = "http"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+hidden gateway = new Gateway {
+  metadata {
+    name = gatewayName
+    namespace = appNamespace
+    annotations {
+      ["cert-manager.io/cluster-issuer"] = clusterIssuer
+    }
+  }
+  spec {
+    gatewayClassName = gatewayClass
+    listeners {
+      new {
+        name = "http"
+        port = 8000
+        protocol = "HTTP"
+        allowedRoutes {
+          namespaces {
+            from = "Same"
+          }
+        }
+      }
+      for (_domain in allDomains) {
+        new {
+          name = "https-\(_domain.replaceAll(".", "-"))"
+          hostname = _domain
+          port = 8443
+          protocol = "HTTPS"
+          tls {
+            mode = "Terminate"
+            certificateRefs {
+              new {
+                kind = "Secret"
+                name = "\(_domain.replaceAll(".", "-"))-tls"
+              }
+            }
+          }
+          allowedRoutes {
+            namespaces {
+              from = "Same"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+hidden httpRoute = new HTTPRoute {
+  metadata {
+    name = appName
+    namespace = appNamespace
+  }
+  spec {
+    parentRefs {
+      new {
+        name = gatewayName
+        namespace = appNamespace
+      }
+    }
+    hostnames = domains
+    rules {
+      new {
+        matches {
+          new {
+            path {
+              type = "PathPrefix"
+              value = "/"
+            }
+          }
+        }
+        backendRefs {
+          new {
+            name = appName
+            port = 80
+          }
+        }
+      }
+    }
+  }
+}
+
+hidden httpsRedirect = new HTTPRoute {
+  metadata {
+    name = "\(appName)-https-redirect"
+    namespace = appNamespace
+  }
+  spec {
+    parentRefs {
+      new {
+        name = gatewayName
+        namespace = appNamespace
+        sectionName = "http"
+      }
+    }
+    hostnames = allDomains
+    rules {
+      new {
+        filters {
+          new {
+            type = "RequestRedirect"
+            requestRedirect {
+              scheme = "https"
+              statusCode = 301
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+hidden domainRedirect: HTTPRoute? =
+  if (redirectDomains.isEmpty) null
+  else
+    new HTTPRoute {
+      metadata {
+        name = "\(appName)-redirect"
+        namespace = appNamespace
+      }
+      spec {
+        parentRefs {
+          new {
+            name = gatewayName
+            namespace = appNamespace
+          }
+        }
+        hostnames = redirectDomains
+        rules {
+          new {
+            filters {
+              new {
+                type = "RequestRedirect"
+                requestRedirect {
+                  hostname = domains.first
+                  statusCode = 301
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+hidden k8sResources: Listing = new {
+  namespace
+  gateway
+  service
+  deployment
+  httpRoute
+  httpsRedirect
+  when (domainRedirect != null) {
+    domainRedirect as HTTPRoute
+  }
 }
 
 output {
   value = k8sResources
   renderer = new YamlRenderer { isStream = true }
-  files {
-    ["k8s/manifests.yaml"] {
-      value = k8sResources
-      renderer = new YamlRenderer { isStream = true }
-    }
-    // Static site - no configs/ entries needed
-    // Apps with config would add: ["configs/appconfig.yaml"] { ... }
-  }
 }

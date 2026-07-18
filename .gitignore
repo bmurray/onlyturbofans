@@ -1,2 +1,5 @@
 .DS_Store
 dist/
+PklProject.deps.json
+!schema/PklProject.deps.json
+!configs/PklProject.deps.json

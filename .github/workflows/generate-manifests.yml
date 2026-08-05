@@ -39,9 +39,17 @@ jobs:
           mkdir -p dist
           test -n "${VERSION}" || { echo "VERSION is empty"; exit 1; }
           pkl eval --project-dir configs configs/prod.pkl > dist/manifests.yaml
+          cat > dist/kustomization.yaml <<'KUST'
+          apiVersion: kustomize.config.k8s.io/v1beta1
+          kind: Kustomization
+          resources:
+            - manifests.yaml
+          KUST
+          sed -i 's/^          //' dist/kustomization.yaml
           echo "---- manifests.yaml (image pin) ----"
           grep -E 'image:|hostname:' dist/manifests.yaml || true
           test -s dist/manifests.yaml
+          test -s dist/kustomization.yaml
 
       - name: Upload manifests
         uses: actions/upload-artifact@v4

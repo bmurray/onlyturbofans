@@ -8,9 +8,9 @@ amends "@schema/Config.pkl"
 version = read("env:VERSION")
 
 domains {
-  "onlyturbofans.com"
+  "onlyturbofans.fun"
 }
 
 redirectDomains {
-  "www.onlyturbofans.com"
+  "www.onlyturbofans.fun"
 }

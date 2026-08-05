@@ -100,9 +100,20 @@ jobs:
         run: |
           mkdir -p dist
           pkl eval --project-dir configs configs/prod.pkl > dist/manifests.yaml
+          # Flux Kustomization runs kustomize build — plain YAML alone is ignored/fails.
+          cat > dist/kustomization.yaml <<'KUST'
+          apiVersion: kustomize.config.k8s.io/v1beta1
+          kind: Kustomization
+          resources:
+            - manifests.yaml
+          KUST
+          # strip leading spaces from heredoc body if any
+          sed -i 's/^          //' dist/kustomization.yaml
           echo "---- image pin ----"
           grep -E '^\s+image:' dist/manifests.yaml
           test -s dist/manifests.yaml
+          test -s dist/kustomization.yaml
+          cat dist/kustomization.yaml
 
       - name: Login to GHCR
         uses: docker/login-action@v3

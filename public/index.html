@@ -861,18 +861,18 @@
   <a href="#" class="topnav-logo"><span>Only</span>TurboFans</a>
   <div class="topnav-search">
     <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-    <input type="text" placeholder="Search engines...">
+    <input type="text" placeholder="Search engines, not that other thing...">
   </div>
   <div class="topnav-actions">
-    <button title="Notifications">
+    <button title="Notifications" onclick="showModal('Your Notifications')">
       <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
       <span class="notif-dot"></span>
     </button>
-    <button title="Messages">
+    <button title="Messages" onclick="showModal('Your DMs')">
       <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
       <span class="notif-dot"></span>
     </button>
-    <div class="avatar-sm" title="Profile">TF</div>
+    <div class="avatar-sm" title="Profile" onclick="showModal('Your Profile')">TF</div>
   </div>
 </nav>
 
@@ -889,12 +889,12 @@
       <li><a href="#">
         <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
         Notifications
-        <span class="badge">7</span>
+        <span class="badge">12</span>
       </a></li>
       <li><a href="#">
         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
         Messages
-        <span class="badge">3</span>
+        <span class="badge">6</span>
       </a></li>
       <li><a href="#">
         <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
@@ -922,7 +922,7 @@
         <div class="dm-avatar" style="background: linear-gradient(135deg, #0044aa, #0066dd);">GE</div>
         <div class="dm-content">
           <div class="dm-name">GE Aerospace <span class="verified-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
-          <div class="dm-preview-text">Hey, want to see my new fan blade design? It's 4th gen CMC...</div>
+          <div class="dm-preview-text">u up? asking for a friend (the GE9X) 👀</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
           <div class="dm-time">2m</div>
@@ -933,7 +933,7 @@
         <div class="dm-avatar" style="background: linear-gradient(135deg, #2d1a4e, #5533aa);">PW</div>
         <div class="dm-content">
           <div class="dm-name">Pratt & Whitney</div>
-          <div class="dm-preview-text">Just filmed a geared turbofan spool-up just for you...</div>
+          <div class="dm-preview-text">sent a voice note: 47s of pure GTF mesh 🔊</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
           <div class="dm-time">18m</div>
@@ -944,7 +944,7 @@
         <div class="dm-avatar" style="background: linear-gradient(135deg, #222, #444);">RR</div>
         <div class="dm-content">
           <div class="dm-name">Rolls-Royce</div>
-          <div class="dm-preview-text">Exclusive UltraFan test footage... 100k+ lbf 😏</div>
+          <div class="dm-preview-text">Darling, the UltraFan is out of beta... 😏</div>
         </div>
         <div class="dm-time">1h</div>
       </li>
@@ -952,9 +952,28 @@
         <div class="dm-avatar" style="background: linear-gradient(135deg, #1a5a1a, #2a8a2a);">CFM</div>
         <div class="dm-content">
           <div class="dm-name">CFM International</div>
-          <div class="dm-preview-text">LEAP-1B fan blade inspection gallery unlocked for you 🔓</div>
+          <div class="dm-preview-text">free sample blade expires in 6h — don't ghost me 🔓</div>
         </div>
         <div class="dm-time">3h</div>
+      </li>
+      <li class="dm-item" onclick="showModal('Boeing')">
+        <div class="dm-avatar" style="background: linear-gradient(135deg, #003087, #0055cc);">BA</div>
+        <div class="dm-content">
+          <div class="dm-name">Boeing</div>
+          <div class="dm-preview-text">can u keep a secret about this door plug 🥺</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          <div class="dm-time">5h</div>
+          <div class="dm-unread-dot"></div>
+        </div>
+      </li>
+      <li class="dm-item" onclick="showModal('The FAA')">
+        <div class="dm-avatar" style="background: linear-gradient(135deg, #333, #666);">FAA</div>
+        <div class="dm-content">
+          <div class="dm-name">The FAA</div>
+          <div class="dm-preview-text">We need to talk about your click history.</div>
+        </div>
+        <div class="dm-time">1d</div>
       </li>
     </ul>
   </aside>
@@ -963,7 +982,7 @@
   <main class="main">
     <div class="hero-banner">
       <h1>Premium Turbofan Content Awaits</h1>
-      <p>Subscribe for exclusive high-bypass ratio content, behind-the-nacelle footage, and intimate spool-up videos you won't find anywhere else. Over 100,000 lbs of thrust — unfiltered.</p>
+      <p>Subscribe for exclusive high-bypass ratio content, behind-the-nacelle footage, and intimate spool-up videos you won't find anywhere else. Over 100,000 lbs of thrust — unfiltered. (If you came for something else: the fans are the round metal ones.)</p>
     </div>
 
     <!-- Stories Bar -->
@@ -1024,11 +1043,24 @@
         </div>
         <span class="story-name">Spirit Aero</span>
       </div>
+      <div class="story-item" onclick="showModal('Embraer')">
+        <div class="story-ring">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #006633, #00aa55);">EM</div>
+        </div>
+        <span class="story-name">Embraer (underrated)</span>
+      </div>
+      <div class="story-item" onclick="showModal('Your Captain')">
+        <div class="story-ring live">
+          <div class="story-avatar" style="background: linear-gradient(135deg, #111, #444);">CA</div>
+        </div>
+        <span class="story-live-badge">PA</span>
+        <span class="story-name">Captain PA</span>
+      </div>
     </div>
 
     <div class="page-header">
       <h2>Suggested Creators</h2>
-      <p>Top engine manufacturers you might enjoy following</p>
+      <p>Top engine manufacturers you might enjoy following · all metal · all spinning · no surprises (except the jokes)</p>
     </div>
 
     <div class="creator-grid">
@@ -1047,7 +1079,7 @@
             </div>
             <button class="btn-subscribe" onclick="showModal('GE Aerospace')">Subscribe · $14.99<span class="price-thrust">134,300 lbf/month</span></button>
           </div>
-          <div class="creator-bio">Making the world's most powerful turbofans since 1917. Home of the GE9X, GEnx, and CF6. 134,300 lbs of thrust and counting. Unfiltered nacelle content daily.</div>
+          <div class="creator-bio">Making the world's most powerful turbofans since 1917. Home of the GE9X, GEnx, and CF6. 134,300 lbs of thrust and counting. Unfiltered nacelle content daily. PPV: stage maps only. No feet. (Blades have roots tho.)</div>
           <div class="creator-stats">
             <span><strong>847</strong> Posts</span>
             <span><strong>12.4K</strong> Fans</span>
@@ -1060,7 +1092,7 @@
           <div class="blurred-grid">
             <div class="unlocked-item">
               <img src="images/content/compressor.png" alt="Compressor blades">
-              <div class="post-caption">Just got my stage 11 compressor blades polished... feeling pretty 🔥 #NacelleLife</div>
+              <div class="post-caption">Just got my stage 11 compressor blades polished... feeling pretty 🔥 Rate my BPR? #NacelleLife #NoFilterNoN1</div>
             </div>
             <div class="blurred-item" onclick="showModal('GE Aerospace')">
               <img class="blurred-bg" src="images/content/combustion.png" alt="">
@@ -1099,6 +1131,14 @@
               <div class="comment-meta"><a>2h</a> <a>Reply</a> <a>❤️ 31</a></div>
             </div>
           </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #16a085;">MC</div>
+            <div class="comment-body">
+              <span class="comment-username">@mx_crew_chief</span>
+              <div class="comment-text">bro said "no feet" and still dropped root attachments... this is peak content 🛠️</div>
+              <div class="comment-meta"><a>45m</a> <a>Reply</a> <a>❤️ 88</a></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1116,7 +1156,7 @@
             </div>
             <button class="btn-subscribe" onclick="showModal('Pratt & Whitney')">Subscribe · $12.99<span class="price-thrust">33,110 lbf/month</span></button>
           </div>
-          <div class="creator-bio">Dependable engines since 1925. Geared Turbofan technology that whispers sweet nothings at 75dB. PW1000G content so smooth you won't believe it's real. DM for custom spool-up vids.</div>
+          <div class="creator-bio">Dependable engines since 1925. Geared Turbofan technology that whispers sweet nothings at 75dB. PW1000G content so smooth you won't believe it's real. DM for custom spool-up vids. Fans only — the planetary gearbox kind.</div>
           <div class="creator-stats">
             <span><strong>623</strong> Posts</span>
             <span><strong>9.8K</strong> Fans</span>
@@ -1136,7 +1176,7 @@
             </div>
             <div class="unlocked-item">
               <img src="images/content/turbinedisc.png" alt="Turbine disc">
-              <div class="post-caption">Turbine disc fresh out of the forge. 1,800°F and still looking this good 😏 #GlowUp</div>
+              <div class="post-caption">Turbine disc fresh out of the forge. 1,800°F and still looking this good 😏 Catch me in the HPT later #GlowUp #HotSectionOnly</div>
             </div>
             <div class="blurred-item" onclick="showModal('Pratt & Whitney')">
               <img class="blurred-bg" src="images/content/oilsystem.png" alt="">
@@ -1168,6 +1208,14 @@
               <div class="comment-meta"><a>3h</a> <a>Reply</a> <a>❤️ 22</a></div>
             </div>
           </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #2980b9;">FC</div>
+            <div class="comment-body">
+              <span class="comment-username">@fan_case_enjoyer</span>
+              <div class="comment-text">planetary gearbox supremacy. I don't care if it's "just metal" this is art ⚙️💜</div>
+              <div class="comment-meta"><a>1h</a> <a>Reply</a> <a>❤️ 15</a></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1185,7 +1233,7 @@
             </div>
             <button class="btn-subscribe" onclick="showModal('Rolls-Royce')">Subscribe · $13.99<span class="price-thrust">97,000 lbf/month</span></button>
           </div>
-          <div class="creator-bio">British engineering excellence. Trent XWB, Trent 1000, and the upcoming UltraFan. We don't just make engines, we make art. 97,000 lbs of pure, refined thrust. Only the finest bypass ratios.</div>
+          <div class="creator-bio">British engineering excellence. Trent XWB, Trent 1000, and the upcoming UltraFan. We don't just make engines, we make art. 97,000 lbs of pure, refined thrust. Only the finest bypass ratios. Champagne taste. Jet-A lifestyle.</div>
           <div class="creator-stats">
             <span><strong>534</strong> Posts</span>
             <span><strong>8.2K</strong> Fans</span>
@@ -1212,7 +1260,7 @@
             </div>
             <div class="unlocked-item">
               <img src="images/content/afterburner.png" alt="Afterburner detail">
-              <div class="post-caption">Late night reheat session... couldn't sleep 🌙 #AfterburnerHours #NoFilter</div>
+              <div class="post-caption">Late night reheat session... couldn't sleep 🌙 Yes I know civil engines don't do this. Let me have this. #AfterburnerHours #MethodActing</div>
             </div>
           </div>
         </div>
@@ -1237,6 +1285,14 @@
               <div class="comment-meta"><a>1h</a> <a>Reply</a> <a>❤️ 29</a></div>
             </div>
           </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #7f8c8d;">QA</div>
+            <div class="comment-body">
+              <span class="comment-username">@qa_from_derby</span>
+              <div class="comment-text">actually UltraFan is geared too... anyway this lighting is immaculate 🧐📸</div>
+              <div class="comment-meta"><a>20m</a> <a>Reply</a> <a>❤️ 11</a></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1254,7 +1310,7 @@
             </div>
             <button class="btn-subscribe" onclick="showModal('CFM International')">Subscribe · $9.99<span class="price-thrust">32,160 lbf/month</span></button>
           </div>
-          <div class="creator-bio">A joint venture between GE and Safran. The LEAP engine powers the 737 MAX and A320neo. We're the most popular engine on the planet. 33,000 engines delivered and counting. Free trial includes one fan blade inspection.</div>
+          <div class="creator-bio">A joint venture between GE and Safran. The LEAP engine powers the 737 MAX and A320neo. We're the most popular engine on the planet. 33,000 engines delivered and counting. Free trial includes one fan blade inspection. Bulk discounts for airlines and people who still call it "CFM56 energy."</div>
           <div class="creator-stats">
             <span><strong>1,204</strong> Posts</span>
             <span><strong>15.7K</strong> Fans</span>
@@ -1267,11 +1323,11 @@
           <div class="blurred-grid">
             <div class="unlocked-item">
               <img src="images/content/exhaust.png" alt="Exhaust nozzle">
-              <div class="post-caption">Showing off my exhaust nozzle on a cold morning... visible thrust hits different ❄️</div>
+              <div class="post-caption">Showing off my exhaust nozzle on a cold morning... condensation is not a filter ❄️ #VisibleThrust</div>
             </div>
             <div class="unlocked-item">
               <img src="images/content/oilsystem.png" alt="Oil system detail">
-              <div class="post-caption">Oil system maintenance day. Getting all lubed up for tomorrow's flight 💦 #SelfCare</div>
+              <div class="post-caption">Oil system maintenance day. Getting all lubed up for tomorrow's flight 💦 Chip detectors only please #SelfCare</div>
             </div>
             <div class="blurred-item" onclick="showModal('CFM International')">
               <img class="blurred-bg" src="images/content/afterburner.png" alt="">
@@ -1303,6 +1359,14 @@
               <div class="comment-meta"><a>4h</a> <a>Reply</a> <a>❤️ 41</a></div>
             </div>
           </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #27ae60;">RW</div>
+            <div class="comment-body">
+              <span class="comment-username">@ramp_walker_88</span>
+              <div class="comment-text">saw one of these at the gate and almost checked for a subscribe button irl 😭</div>
+              <div class="comment-meta"><a>2h</a> <a>Reply</a> <a>❤️ 102</a></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1320,7 +1384,7 @@
             </div>
             <button class="btn-subscribe" onclick="showModal('Boom Supersonic')">Subscribe · $19.99<span class="price-thrust">35,000 lbf/month</span></button>
           </div>
-          <div class="creator-bio">Breaking the sound barrier and your expectations. The Symphony engine is 100% bespoke, medium-bypass, and built for Mach 1.7. Concorde walked so we could fly. Supersonic content that'll hit you before you hear it.</div>
+          <div class="creator-bio">Breaking the sound barrier and your expectations. The Symphony engine is 100% bespoke, medium-bypass, and built for Mach 1.7. Concorde walked so we could fly. Supersonic content that'll hit you before you hear it. Verified: still not cancelled (the program, your plans optional).</div>
           <div class="creator-stats">
             <span><strong>312</strong> Posts</span>
             <span><strong>6.1K</strong> Fans</span>
@@ -1340,7 +1404,7 @@
             </div>
             <div class="unlocked-item">
               <img src="images/content/combustion.png" alt="Combustion chamber">
-              <div class="post-caption">Combustion chamber running hot today. Mach 1.7 energy 🔥 #SupersonicVibes</div>
+              <div class="post-caption">Combustion chamber running hot today. Mach 1.7 energy 🔥 Soft boom only (regulators are subscribed too) #SupersonicVibes</div>
             </div>
             <div class="blurred-item" onclick="showModal('Boom Supersonic')">
               <img class="blurred-bg" src="images/content/fan-blades.png" alt="">
@@ -1370,6 +1434,14 @@
               <span class="comment-username">@concorde_ghost</span>
               <div class="comment-text">Concorde walked so Boom could FLY. I'm not crying you're crying 😤✈️</div>
               <div class="comment-meta"><a>5h</a> <a>Reply</a> <a>❤️ 73</a></div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar" style="background: #d35400;">SS</div>
+            <div class="comment-body">
+              <span class="comment-username">@subsonic_sleeper</span>
+              <div class="comment-text">I only fly 0.85 and I'm still here. respect the hustle, ignore the physics degree 🫡</div>
+              <div class="comment-meta"><a>3h</a> <a>Reply</a> <a>❤️ 27</a></div>
             </div>
           </div>
         </div>
@@ -1425,6 +1497,48 @@
       title: "Ma'am, This Is a Hangar",
       text: "You've just tried to subscribe to {creator}'s exclusive content. Their content is high-bypass turbofan engines. That's it. That's all it's ever been. Read the room.",
       shame: "The TSA has added you to a list. Not that list. A different, more embarrassing list."
+    },
+    {
+      icon: "\u{1F4CB}",
+      title: "ADSB Hit Confirmed",
+      text: "We tracked that click from 35,000 feet. You tried to unlock {creator}. The payload is a high-pressure turbine. Serial number, not phone number.",
+      shame: "Squawk 7700 for your dignity."
+    },
+    {
+      icon: "\u{1F9EA}",
+      title: "Failed Pre-Flight Inspection",
+      text: "Before any subscription can proceed, please confirm: you understand {creator} posts metal spinning at 10,000 RPM and not... the other thing. Box not checked. Flight cancelled.",
+      shame: "Weight and balance: ego over max gross."
+    },
+    {
+      icon: "\u{1F4B3}",
+      title: "Card Declined: Reality",
+      text: "Your payment to {creator} failed because the product is a turbofan. Visa doesn't have a merchant code for 'I thought the blur was something else.'",
+      shame: "No refunds on shame."
+    },
+    {
+      icon: "\u{1F50D}",
+      title: "Bypass Ratio: Your Judgment",
+      text: "High-bypass means most of the air goes AROUND the core. Kind of like how most of the joke went around your head when you clicked {creator}.",
+      shame: "Recommend: RTFM — Read The Funny Masthead."
+    },
+    {
+      icon: "\u{1F6E1}\uFE0F",
+      title: "ETOPS Denied",
+      text: "Extended-range twin-engine operations require two engines and one brain. You brought zero of the second when you subscribed to {creator}.",
+      shame: "Nearest diversion airport: Self Reflection International (SRI)."
+    },
+    {
+      icon: "\u{1F4A1}",
+      title: "N1 Spooling... Ego Collapsing",
+      text: "{creator} thanks you for your interest in exclusive content: stage maps, CMC fan blades, and oil analysis PDFs. If you wanted something else, the URL is doing a lot of heavy lifting.",
+      shame: "Tip: the lock icon is for paywall parody, not destiny."
+    },
+    {
+      icon: "\u{1F3C6}",
+      title: "Achievement Unlocked: Wrong Site",
+      text: "You found the rare 'clicked Subscribe on {creator} on OnlyTurboFans' ending. Spoilers: it's compressors all the way down.",
+      shame: "Share this achievement with no one. Especially not IT."
     }
   ];
 
@@ -1470,6 +1584,20 @@
     { icon: "\u{1F60F}", title: "Airbus", text: "commented: \"Our engines don't fall off btw\"" },
     { icon: "\u{1F440}", title: "FAA", text: "is watching your browsing activity on this site" },
     { icon: "\u{1F527}", title: "Spirit AeroSystems", text: "posted: \"Door plug inspection ASMR (40 min)\"" },
+    { icon: "\u{1F4CA}", title: "GE Aerospace", text: "posted: \"BPR 10:1 thirst trap (technical drawing)\"" },
+    { icon: "\u{1F399}\uFE0F", title: "Pratt & Whitney", text: "dropped ASMR: \"Geared fan mesh, 8 hours, rain sounds\"" },
+    { icon: "\u{1F3AD}", title: "Rolls-Royce", text: "went private: \"UltraFan only — no civilians\"" },
+    { icon: "\u{1F6C2}", title: "CFM International", text: "pinned: \"FAQ: yes the free trial is one blade, no you may not lick it\"" },
+    { icon: "\u{1F680}", title: "Boom Supersonic", text: "posted: \"sonic boom but make it soft launch\"" },
+    { icon: "\u{1F4ED}", title: "Boeing", text: "DMed you: \"pls rate our quality process 1-5 (be nice)\"" },
+    { icon: "\u{1F91D}", title: "Airbus", text: "started a poll: \"Who has dual-aisle vibes?\"" },
+    { icon: "\u{1F50E}", title: "FAA", text: "issued SAIB: \"Possible intentional misreading of website name\"" },
+    { icon: "\u{1F9F0}", title: "Spirit AeroSystems", text: "posted: \"Rivets onlyfans — wait, only rivets\"" },
+    { icon: "\u{1F4B8}", title: "OnlyTurboFans", text: "Tip: tips go to jet fuel, not creators' lifestyles" },
+    { icon: "\u{1F30A}", title: "GE Aerospace", text: "story: \"CMC blades in the rain — durability content\"" },
+    { icon: "\u{23F1}\uFE0F", title: "Pratt & Whitney", text: "reminder: \"Your free trial of 75dB ends in 2 hours\"" },
+    { icon: "\u{1F3A5}", title: "Rolls-Royce", text: "is LIVE from Derby: \"Midnight oil sniff (metrology)\"" },
+    { icon: "\u{1F6A7}", title: "CFM International", text: "posted: \"MAX-compatible content, emotionally\"" },
   ];
 
   let toastQueue = [...toastMessages];
